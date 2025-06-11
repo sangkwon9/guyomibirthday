@@ -7,8 +7,8 @@
 body {
     font-family: 'Noto Sans KR', sans-serif;
     background: 
-        linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%),
-        url('https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80') no-repeat center center fixed;
+        linear-gradient(135deg, rgba(135, 206, 250, 0.3) 0%, rgba(255, 192, 203, 0.3) 100%),
+        url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80') no-repeat center center fixed;
     background-size: cover;
     min-height: 100vh;
     overflow-x: hidden;
