@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 옆에서 날아오는 꽃잎 생성
     createSidePetals();
     
+    // 구름같은 꽃 클러스터 생성
+    createFlowerClouds();
+    
     // 색깔 변경 애니메이션
     startColorAnimation();
 });
@@ -217,62 +220,64 @@ function playClickSound() {
     }, 1000);
 }
 
-// 초기 100개 이상의 고정 꽃잎 생성
+// 수백개의 고정 꽃잎 생성 (300개)
 function createStaticPetals() {
-    const petals = ['🌸', '🌺', '🌼', '🌻', '🌷', '🌹', '🌿', '🍀', '🏵️', '💐', '🌱', '🌾'];
+    const petals = ['🌸', '🌺', '🌼', '🌻', '🌷', '🌹', '🌿', '🍀', '🏵️', '💐', '🌱', '🌾', '🥀', '🌳', '🌲', '🎋'];
     
-    // 150개의 고정 꽃잎 생성
-    for (let i = 0; i < 150; i++) {
+    // 300개의 고정 꽃잎 생성 (수백개)
+    for (let i = 0; i < 300; i++) {
         const petal = document.createElement('div');
         petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
         petal.className = 'static-petal';
         petal.style.cssText = `
             position: fixed;
-            left: ${Math.random() * window.innerWidth}px;
-            top: ${Math.random() * window.innerHeight}px;
-            font-size: ${0.8 + Math.random() * 1.5}rem;
+            left: ${Math.random() * (window.innerWidth + 200) - 100}px;
+            top: ${Math.random() * (window.innerHeight + 200) - 100}px;
+            font-size: ${0.6 + Math.random() * 2}rem;
             pointer-events: none;
             z-index: 1;
-            opacity: ${0.3 + Math.random() * 0.4};
-            animation: staticFloat ${3 + Math.random() * 4}s ease-in-out infinite;
-            animation-delay: ${Math.random() * 5}s;
+            opacity: ${0.2 + Math.random() * 0.6};
+            animation: staticFloat ${2 + Math.random() * 6}s ease-in-out infinite;
+            animation-delay: ${Math.random() * 8}s;
             transform: rotate(${Math.random() * 360}deg);
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
         `;
         
         document.body.appendChild(petal);
     }
 }
 
-// 추가 떨어지는 꽃잎 생성 (기존 함수 강화)
+// 수백개의 떨어지는 꽃잎 생성 (대폭 강화)
 function createMorePetals() {
-    const petals = ['🌸', '🌺', '🌼', '🌻', '🌷', '🌹', '🌿', '🍀', '🏵️', '💐', '🌱', '🌾'];
+    const petals = ['🌸', '🌺', '🌼', '🌻', '🌷', '🌹', '🌿', '🍀', '🏵️', '💐', '🌱', '🌾', '🥀', '🌳', '🌲', '🎋', '🌊', '⭐', '💫', '✨'];
     
-    // 더 자주, 더 많이 떨어지는 꽃잎
+    // 극도로 많은 떨어지는 꽃잎 (수백개 수준)
     setInterval(() => {
-        // 한 번에 2-4개씩 생성
-        const count = 2 + Math.floor(Math.random() * 3);
+        // 한 번에 5-10개씩 생성
+        const count = 5 + Math.floor(Math.random() * 6);
         for (let i = 0; i < count; i++) {
             const petal = document.createElement('div');
             petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
             petal.style.cssText = `
                 position: fixed;
-                left: ${Math.random() * window.innerWidth}px;
-                top: -50px;
-                font-size: ${1 + Math.random() * 1.5}rem;
+                left: ${Math.random() * (window.innerWidth + 200) - 100}px;
+                top: -100px;
+                font-size: ${0.8 + Math.random() * 2}rem;
                 pointer-events: none;
                 z-index: 1;
-                animation: petalFall ${6 + Math.random() * 4}s linear forwards;
-                opacity: ${0.5 + Math.random() * 0.5};
+                animation: petalFall ${4 + Math.random() * 8}s linear forwards;
+                opacity: ${0.3 + Math.random() * 0.7};
                 transform: rotate(${Math.random() * 360}deg);
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
             `;
             
             document.body.appendChild(petal);
             
             setTimeout(() => {
                 petal.remove();
-            }, 10000);
+            }, 12000);
         }
-    }, 800); // 더 자주 생성 (0.8초마다)
+    }, 400); // 매우 자주 생성 (0.4초마다)
 }
 
 // 옆에서 날아오는 꽃잎들
@@ -302,6 +307,51 @@ function createSidePetals() {
             petal.remove();
         }, 12000);
     }, 1500);
+}
+
+// 구름같은 꽃 클러스터 생성
+function createFlowerClouds() {
+    const petals = ['🌸', '🌺', '🌼', '🌻', '🌷', '🌹'];
+    
+    setInterval(() => {
+        // 구름처럼 뭉쳐서 나타나는 꽃들
+        const centerX = Math.random() * window.innerWidth;
+        const centerY = Math.random() * (window.innerHeight * 0.6);
+        
+        // 한 구름당 15-25개의 꽃
+        const cloudSize = 15 + Math.floor(Math.random() * 11);
+        
+        for (let i = 0; i < cloudSize; i++) {
+            const petal = document.createElement('div');
+            petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
+            
+            // 구름 중심에서 반경 60px 내에 랜덤 배치
+            const angle = Math.random() * Math.PI * 2;
+            const radius = Math.random() * 60;
+            const x = centerX + Math.cos(angle) * radius;
+            const y = centerY + Math.sin(angle) * radius;
+            
+            petal.style.cssText = `
+                position: fixed;
+                left: ${x}px;
+                top: ${y}px;
+                font-size: ${1.2 + Math.random() * 1}rem;
+                pointer-events: none;
+                z-index: 2;
+                opacity: ${0.4 + Math.random() * 0.6};
+                animation: cloudFloat ${8 + Math.random() * 4}s ease-in-out forwards;
+                animation-delay: ${i * 0.1}s;
+                transform: rotate(${Math.random() * 360}deg);
+                filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+            `;
+            
+            document.body.appendChild(petal);
+            
+            setTimeout(() => {
+                petal.remove();
+            }, 15000);
+        }
+    }, 3000); // 3초마다 새로운 꽃 구름 생성
 }
 
 // 색깔 변경 애니메이션
@@ -424,6 +474,14 @@ style.textContent = `
         0% { transform: translateX(0) rotate(0deg); opacity: 0.6; }
         50% { transform: translateX(50vw) rotate(180deg); opacity: 0.8; }
         100% { transform: translateX(100vw) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes cloudFloat {
+        0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+        20% { transform: translateY(-10px) scale(1) rotate(90deg); opacity: 0.8; }
+        50% { transform: translateY(-5px) scale(1.1) rotate(180deg); opacity: 1; }
+        80% { transform: translateY(-15px) scale(0.9) rotate(270deg); opacity: 0.6; }
+        100% { transform: translateY(-30px) scale(0.3) rotate(360deg); opacity: 0; }
     }
 `;
 
