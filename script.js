@@ -234,14 +234,33 @@ function createStaticPetals() {
             left: ${Math.random() * (window.innerWidth + 200) - 100}px;
             top: ${Math.random() * (window.innerHeight + 200) - 100}px;
             font-size: ${0.6 + Math.random() * 2}rem;
-            pointer-events: none;
+            pointer-events: auto;
+            cursor: pointer;
             z-index: 1;
             opacity: ${0.2 + Math.random() * 0.6};
             animation: staticFloat ${2 + Math.random() * 6}s ease-in-out infinite;
             animation-delay: ${Math.random() * 8}s;
             transform: rotate(${Math.random() * 360}deg);
             filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
+            transition: transform 0.1s ease;
         `;
+        
+        // 꽃잎 클릭 이벤트 추가
+        petal.addEventListener('click', function(e) {
+            createFlowerExplosion(e, this);
+            e.stopPropagation();
+        });
+        
+        // 마우스 호버 효과
+        petal.addEventListener('mouseenter', function() {
+            this.style.transform += ' scale(1.3)';
+            this.style.filter = 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))';
+        });
+        
+        petal.addEventListener('mouseleave', function() {
+            this.style.transform = this.style.transform.replace(' scale(1.3)', '');
+            this.style.filter = 'drop-shadow(0 0 3px rgba(255, 255, 255, 0.3))';
+        });
         
         document.body.appendChild(petal);
     }
@@ -263,13 +282,32 @@ function createMorePetals() {
                 left: ${Math.random() * (window.innerWidth + 200) - 100}px;
                 top: -100px;
                 font-size: ${0.8 + Math.random() * 2}rem;
-                pointer-events: none;
+                pointer-events: auto;
+                cursor: pointer;
                 z-index: 1;
                 animation: petalFall ${4 + Math.random() * 8}s linear forwards;
                 opacity: ${0.3 + Math.random() * 0.7};
                 transform: rotate(${Math.random() * 360}deg);
                 filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+                transition: transform 0.1s ease;
             `;
+            
+            // 떨어지는 꽃잎 클릭 이벤트 추가
+            petal.addEventListener('click', function(e) {
+                createFlowerExplosion(e, this);
+                e.stopPropagation();
+            });
+            
+            // 마우스 호버 효과
+            petal.addEventListener('mouseenter', function() {
+                this.style.transform += ' scale(1.3)';
+                this.style.filter = 'drop-shadow(0 0 15px rgba(255, 255, 255, 1))';
+            });
+            
+            petal.addEventListener('mouseleave', function() {
+                this.style.transform = this.style.transform.replace(' scale(1.3)', '');
+                this.style.filter = 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))';
+            });
             
             document.body.appendChild(petal);
             
@@ -336,14 +374,33 @@ function createFlowerClouds() {
                 left: ${x}px;
                 top: ${y}px;
                 font-size: ${1.2 + Math.random() * 1}rem;
-                pointer-events: none;
+                pointer-events: auto;
+                cursor: pointer;
                 z-index: 2;
                 opacity: ${0.4 + Math.random() * 0.6};
                 animation: cloudFloat ${8 + Math.random() * 4}s ease-in-out forwards;
                 animation-delay: ${i * 0.1}s;
                 transform: rotate(${Math.random() * 360}deg);
                 filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+                transition: transform 0.1s ease;
             `;
+            
+            // 구름 꽃잎 클릭 이벤트 추가
+            petal.addEventListener('click', function(e) {
+                createFlowerExplosion(e, this);
+                e.stopPropagation();
+            });
+            
+            // 마우스 호버 효과
+            petal.addEventListener('mouseenter', function() {
+                this.style.transform += ' scale(1.4)';
+                this.style.filter = 'drop-shadow(0 0 20px rgba(255, 255, 255, 1))';
+            });
+            
+            petal.addEventListener('mouseleave', function() {
+                this.style.transform = this.style.transform.replace(' scale(1.4)', '');
+                this.style.filter = 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.6))';
+            });
             
             document.body.appendChild(petal);
             
@@ -368,6 +425,109 @@ function startColorAnimation() {
         });
         colorIndex = (colorIndex + 1) % colors.length;
     }, 3000);
+}
+
+// 꽃 폭죽 효과 함수
+function createFlowerExplosion(e, clickedPetal) {
+    // 클릭된 꽃의 위치
+    const rect = clickedPetal.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    // 클릭된 꽃을 즉시 제거
+    clickedPetal.style.animation = 'explode 0.3s ease-out forwards';
+    setTimeout(() => {
+        if (clickedPetal.parentNode) {
+            clickedPetal.remove();
+        }
+    }, 300);
+    
+    // 화려한 꽃 폭죽 생성
+    const explosionPetals = ['🌸', '🌺', '🌼', '🌻', '🌷', '🌹', '💖', '💝', '💕', '⭐', '✨', '💫'];
+    
+    // 16개의 폭죽 파편 생성
+    for (let i = 0; i < 16; i++) {
+        const fragment = document.createElement('div');
+        fragment.innerHTML = explosionPetals[Math.floor(Math.random() * explosionPetals.length)];
+        
+        // 360도 방향으로 균등하게 퍼짐
+        const angle = (i * 22.5) * (Math.PI / 180);
+        const distance = 100 + Math.random() * 50;
+        const endX = centerX + Math.cos(angle) * distance;
+        const endY = centerY + Math.sin(angle) * distance;
+        
+        fragment.style.cssText = `
+            position: fixed;
+            left: ${centerX}px;
+            top: ${centerY}px;
+            font-size: ${1.5 + Math.random() * 1}rem;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 1;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+            animation: flowerExplosion${i} 1.5s ease-out forwards;
+        `;
+        
+        // 각 파편별 개별 애니메이션
+        const keyframes = `
+            @keyframes flowerExplosion${i} {
+                0% { 
+                    transform: translate(0, 0) rotate(0deg) scale(1);
+                    opacity: 1;
+                }
+                50% { 
+                    transform: translate(${(endX - centerX) * 0.7}px, ${(endY - centerY) * 0.7}px) rotate(${180 + Math.random() * 180}deg) scale(1.3);
+                    opacity: 0.8;
+                }
+                100% { 
+                    transform: translate(${endX - centerX}px, ${endY - centerY}px) rotate(${360 + Math.random() * 180}deg) scale(0.2);
+                    opacity: 0;
+                }
+            }
+        `;
+        
+        // 애니메이션을 동적으로 추가
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = keyframes;
+        document.head.appendChild(styleSheet);
+        
+        document.body.appendChild(fragment);
+        
+        // 파편 제거
+        setTimeout(() => {
+            if (fragment.parentNode) {
+                fragment.remove();
+            }
+            if (styleSheet.parentNode) {
+                styleSheet.remove();
+            }
+        }, 1500);
+    }
+    
+    // 중앙 폭발 효과
+    const centerBurst = document.createElement('div');
+    centerBurst.innerHTML = '💥';
+    centerBurst.style.cssText = `
+        position: fixed;
+        left: ${centerX - 15}px;
+        top: ${centerY - 15}px;
+        font-size: 2rem;
+        pointer-events: none;
+        z-index: 10000;
+        animation: centerBurst 0.8s ease-out forwards;
+    `;
+    
+    document.body.appendChild(centerBurst);
+    
+    setTimeout(() => {
+        if (centerBurst.parentNode) {
+            centerBurst.remove();
+        }
+    }, 800);
+    
+    // 성공 메시지 표시
+    const messages = ['🌸 꽃 폭죽! 🌸', '💖 아름다워! 💖', '✨ 환상적! ✨', '🎉 와! 🎉'];
+    showMessage(messages[Math.floor(Math.random() * messages.length)]);
 }
 
 // 랜덤 색상 생성
@@ -482,6 +642,12 @@ style.textContent = `
         50% { transform: translateY(-5px) scale(1.1) rotate(180deg); opacity: 1; }
         80% { transform: translateY(-15px) scale(0.9) rotate(270deg); opacity: 0.6; }
         100% { transform: translateY(-30px) scale(0.3) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes centerBurst {
+        0% { transform: scale(0.5) rotate(0deg); opacity: 1; }
+        50% { transform: scale(2) rotate(180deg); opacity: 0.8; }
+        100% { transform: scale(0.1) rotate(360deg); opacity: 0; }
     }
 `;
 
