@@ -6,396 +6,256 @@
 
 body {
     font-family: 'Noto Sans KR', sans-serif;
-    background: 
-        linear-gradient(135deg, rgba(135, 206, 250, 0.2) 0%, rgba(173, 216, 230, 0.2) 50%, rgba(176, 224, 230, 0.2) 100%),
-        url('https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
-    background-size: cover;
     min-height: 100vh;
     overflow-x: hidden;
+    background: linear-gradient(160deg, #0a1128 0%, #1c2e5e 45%, #3a1c71 100%);
+    color: #fff;
     position: relative;
 }
 
-body::before {
-    content: '';
+/* 별 배경 */
+.stars {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(255, 182, 193, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 192, 203, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 60% 40%, rgba(255, 218, 185, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(255, 240, 245, 0.2) 0%, transparent 50%);
-    z-index: -1;
-}
-
-.container {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-/* 떠다니는 꽃잎 애니메이션 */
-.floating-petals {
-    position: fixed;
-    width: 100%;
-    height: 100%;
+    inset: 0;
+    z-index: 0;
     pointer-events: none;
-    z-index: 1;
 }
 
-.petal {
+.star {
     position: absolute;
-    font-size: 2rem;
-    animation: float 6s ease-in-out infinite;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle var(--dur, 3s) ease-in-out infinite;
     opacity: 0.8;
 }
 
-.petal-1 {
-    top: 10%;
-    left: 10%;
-    animation-delay: 0s;
+@keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.4); }
 }
 
-.petal-2 {
-    top: 20%;
-    right: 15%;
-    animation-delay: 1s;
+/* 떠다니는 이모지 */
+.floating-emojis {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
 }
 
-.petal-3 {
-    top: 40%;
-    left: 5%;
-    animation-delay: 2s;
+.float-emoji {
+    position: absolute;
+    bottom: -60px;
+    font-size: 1.8rem;
+    animation: floatUp linear infinite;
+    opacity: 0;
 }
 
-.petal-4 {
-    top: 60%;
-    right: 10%;
-    animation-delay: 3s;
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.9; }
+    90% { opacity: 0.9; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
 }
 
-.petal-5 {
-    top: 80%;
-    left: 20%;
-    animation-delay: 4s;
-}
-
-.petal-6 {
-    top: 70%;
-    right: 25%;
-    animation-delay: 5s;
-}
-
-.petal-7 {
-    top: 30%;
-    left: 80%;
-    animation-delay: 2.5s;
-}
-
-.petal-8 {
-    top: 50%;
-    right: 80%;
-    animation-delay: 1.5s;
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-        transform: translateY(-20px) rotate(180deg);
-    }
-}
-
-/* 메인 콘텐츠 */
-.main-content {
-    z-index: 10;
+/* 컨테이너 */
+.container {
     position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
 }
 
-.birthday-card {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 25px;
-    padding: 40px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 600px;
+.main-content {
     width: 100%;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    animation: cardAppear 1s ease-out;
+    max-width: 620px;
 }
 
-@keyframes cardAppear {
-    from {
-        opacity: 0;
-        transform: translateY(50px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+/* 카드 */
+.welcome-card {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 28px;
+    padding: 48px 36px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    animation: cardIn 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.card-header {
-    margin-bottom: 30px;
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.eyebrow {
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: #a5c8ff;
+    margin-bottom: 12px;
+    opacity: 0.9;
 }
 
 .title {
-    font-size: 2.5rem;
-    color: #e91e63;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    animation: titleBounce 2s ease-in-out infinite;
+    line-height: 1.05;
+    margin-bottom: 8px;
 }
 
-@keyframes titleBounce {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
+.title-line {
+    display: block;
+    font-weight: 900;
+    font-size: clamp(2.6rem, 11vw, 4.6rem);
+    letter-spacing: 0.06em;
+    background: linear-gradient(120deg, #7fdbff, #b388ff, #ff8ac2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 18px rgba(127, 219, 255, 0.35));
 }
 
-.card-body {
-    margin-bottom: 30px;
-}
-
-.message {
-    margin-bottom: 30px;
-}
-
-.main-message {
-    font-size: 3rem;
-    color: #673ab7;
-    font-weight: 700;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    animation: pulse 2s ease-in-out infinite;
-}
-
-.sub-message {
-    font-size: 1.5rem;
-    color: #ff4081;
-    font-weight: 400;
-    margin-bottom: 20px;
-    animation: fadeInOut 3s ease-in-out infinite;
-}
-
-.birthday-message {
-    font-size: 2.8rem;
-    color: #e91e63;
-    font-weight: 700;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
-    animation: rainbow 3s linear infinite;
+.title-back {
+    animation: pulse 2.4s ease-in-out infinite;
 }
 
 @keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
-@keyframes fadeInOut {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.7;
-    }
+/* 메시지 */
+.message {
+    margin: 30px 0 20px;
 }
 
-@keyframes rainbow {
-    0% { color: #e91e63; }
-    20% { color: #ff4081; }
-    40% { color: #673ab7; }
-    60% { color: #3f51b5; }
-    80% { color: #009688; }
-    100% { color: #e91e63; }
+.name {
+    font-size: clamp(2.2rem, 8vw, 3.2rem);
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 2px 20px rgba(179, 136, 255, 0.6);
+    margin-bottom: 10px;
 }
 
+.return-message {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+    font-weight: 500;
+    color: #ffd8f0;
+}
+
+/* 아이콘 */
 .celebration-icons {
-    margin: 30px 0;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 14px;
+    margin: 26px 0;
 }
 
-.icon {
-    font-size: 2.5rem;
-    animation: bounce 1s ease-in-out infinite;
+.celebration-icons .icon {
+    font-size: 2rem;
+    animation: bounce 1.8s ease-in-out infinite;
 }
 
-.icon:nth-child(1) { animation-delay: 0s; }
-.icon:nth-child(2) { animation-delay: 0.2s; }
-.icon:nth-child(3) { animation-delay: 0.4s; }
-.icon:nth-child(4) { animation-delay: 0.6s; }
-.icon:nth-child(5) { animation-delay: 0.8s; }
+.celebration-icons .icon:nth-child(1) { animation-delay: 0s; }
+.celebration-icons .icon:nth-child(2) { animation-delay: 0.15s; }
+.celebration-icons .icon:nth-child(3) { animation-delay: 0.3s; }
+.celebration-icons .icon:nth-child(4) { animation-delay: 0.45s; }
+.celebration-icons .icon:nth-child(5) { animation-delay: 0.6s; }
 
 @keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
 }
 
+/* 축하 문구 */
 .wishes {
-    font-size: 1.2rem;
-    color: #555;
-    line-height: 1.6;
-    font-weight: 400;
+    margin: 24px 0 30px;
+    line-height: 2;
 }
 
 .wishes p {
-    margin-bottom: 10px;
-    animation: slideIn 1s ease-out;
+    font-size: clamp(0.95rem, 3.4vw, 1.12rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.92);
 }
 
-.wishes p:nth-child(1) { animation-delay: 0.5s; }
-.wishes p:nth-child(2) { animation-delay: 1s; }
-.wishes p:nth-child(3) { animation-delay: 1.5s; }
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+/* 버튼 */
+.celebrate-btn {
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    padding: 15px 34px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: linear-gradient(120deg, #6a5cff, #b388ff, #ff6ec7);
+    background-size: 200% 200%;
+    box-shadow: 0 10px 30px rgba(179, 136, 255, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: gradientMove 4s ease infinite;
 }
 
+@keyframes gradientMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.celebrate-btn:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 16px 40px rgba(179, 136, 255, 0.7);
+}
+
+.celebrate-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* 푸터 */
 .card-footer {
-    margin-top: 30px;
+    margin-top: 34px;
 }
 
 .heart-animation {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
+    margin-bottom: 14px;
 }
 
-.heart {
-    font-size: 2rem;
-    animation: heartBeat 1.5s ease-in-out infinite;
+.heart-animation .heart {
+    font-size: 1.6rem;
+    animation: heartBeat 1.4s ease-in-out infinite;
 }
 
-.heart:nth-child(1) { animation-delay: 0s; }
-.heart:nth-child(2) { animation-delay: 0.5s; }
-.heart:nth-child(3) { animation-delay: 1s; }
+.heart-animation .heart:nth-child(2) { animation-delay: 0.2s; }
+.heart-animation .heart:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes heartBeat {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.3);
-    }
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.3); }
 }
 
-/* 케이크 애니메이션 */
-.cake-animation {
+.signature {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.03em;
+}
+
+/* 폭죽 캔버스 */
+#fireworks {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 5;
-    text-align: center;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
 }
 
-.cake {
-    font-size: 3rem;
-    animation: cakeRotate 4s linear infinite;
+@media (max-width: 480px) {
+    .welcome-card { padding: 36px 22px; }
+    .celebration-icons { gap: 10px; }
+    .celebration-icons .icon { font-size: 1.6rem; }
 }
-
-@keyframes cakeRotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.candles {
-    margin-top: 10px;
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-}
-
-.candle {
-    font-size: 1.2rem;
-    animation: candleFlicker 2s ease-in-out infinite;
-}
-
-.candle:nth-child(1) { animation-delay: 0s; }
-.candle:nth-child(2) { animation-delay: 0.5s; }
-.candle:nth-child(3) { animation-delay: 1s; }
-
-@keyframes candleFlicker {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.7;
-        transform: scale(0.9);
-    }
-}
-
-/* 반응형 디자인 */
-@media (max-width: 768px) {
-    .birthday-card {
-        padding: 20px;
-        margin: 20px;
-    }
-    
-    .title {
-        font-size: 2rem;
-    }
-    
-    .main-message {
-        font-size: 2.5rem;
-    }
-    
-    .birthday-message {
-        font-size: 2.2rem;
-    }
-    
-    .wishes {
-        font-size: 1rem;
-    }
-    
-    .celebration-icons {
-        gap: 15px;
-    }
-    
-    .icon {
-        font-size: 2rem;
-    }
-    
-    .cake-animation {
-        bottom: 10px;
-        right: 10px;
-    }
-    
-    .cake {
-        font-size: 2rem;
-    }
-    
-    .petal {
-        font-size: 1.5rem;
-    }
-} 
